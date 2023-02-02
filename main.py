@@ -32,7 +32,7 @@ pygame.init()
 
 
 world = pygame.display.set_mode([worldx,worldy])
-backdrop = pygame.image.load(os.path.join('images','stage.png'))
+backdrop = pygame.image.load(os.path.join('images/Stages','main-stage.png'))
 backdropbox = world.get_rect()
 
 def findHighScore(scores):
@@ -47,7 +47,7 @@ class SnowBall(pygame.sprite.Sprite):
         self.movey = 0
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join('images', 'snow-0.png')).convert()
+        img = pygame.image.load(os.path.join('images/Snowball', 'snow-0.png')).convert()
         img.convert_alpha()
         img.set_colorkey(ALPHA)
         self.images.append(img)
@@ -61,7 +61,6 @@ class SnowBall(pygame.sprite.Sprite):
 
     def momentum(self):
         self.frame += 1
-        #self.movex = randrange(3,5)
         if self.rect.x <= 0:
             self.rect.y = randrange(210,215)
             self.rect.x = 700
@@ -74,7 +73,7 @@ class IceFall(pygame.sprite.Sprite):
         self.movey = 1
         self.frame = 0
         self.images = []
-        img = pygame.image.load(os.path.join('images', 'ice-0.png')).convert()
+        img = pygame.image.load(os.path.join('images/Ice', 'ice-0.png')).convert()
         img.convert_alpha()
         img.set_colorkey(ALPHA)
         self.images.append(img)
@@ -102,7 +101,7 @@ class Coin(pygame.sprite.Sprite):
         self.spin = 0
         self.images = []
         for i in range(0,15):
-            img = pygame.image.load(os.path.join('images', 'coin-' + str(i) + '.png')).convert()
+            img = pygame.image.load(os.path.join('images/Coin', 'coin-' + str(i) + '.png')).convert()
             img.convert_alpha() #optimize alpha
             img.set_colorkey(ALPHA) # set alpha
             self.images.append(img)
@@ -131,7 +130,7 @@ class Player(pygame.sprite.Sprite):
         self.isDoubleJump = False
         self.images = []
         for i in range(0, 7):
-            img = pygame.image.load(os.path.join('images', 'p-' + str(i) + '.png')).convert()
+            img = pygame.image.load(os.path.join('images/Player', 'p-' + str(i) + '.png')).convert()
             img.convert_alpha() #optimize alpha
             img.set_colorkey(ALPHA) # set alpha
             self.images.append(img)
@@ -184,7 +183,7 @@ class Player(pygame.sprite.Sprite):
 
 
 # Setup
-backdrop = pygame.image.load(os.path.join('images', 'stage.png'))
+backdrop = pygame.image.load(os.path.join('images/Stages', 'main-stage.png'))
 clock = pygame.time.Clock()
 pygame.init()
 FONT = pygame.font.SysFont("Sans", 30)
@@ -299,7 +298,6 @@ while main:
                 player.control(-steps, 0)
             if event.key == ord('d'):
                 player.control(steps, 0) 
-            #if event.key == pygame.K_SPACE and player.jump == False:
             if event.key == ord('w') or event.key ==  pygame.K_SPACE and player.jump == False:
                 player.jump = True
                 player.control(0, -jump)
@@ -312,7 +310,7 @@ while main:
     player.rect.clamp_ip(backdropbox)
     world.blit(backdrop, backdropbox)
     world.blit(FONT.render('SCORE: '+str(SCORE), True, WHITE), (300, 20))
-    world.blit(FONT.render('HIGH SCORE: '+str(HIGHSCORE), True, WHITE), (500, 20))
+    world.blit(FONT.render('HIGH SCORE: '+str(HIGHSCORE), True, WHITE), (450, 20))
     player.gravity()
     player.update()
     coin.update()
