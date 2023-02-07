@@ -9,12 +9,12 @@ import sys
 # Help python identify OS
 import os
 import Characters.characters
-import Constants.vars
+import dist.vars
 
 clock = pygame.time.Clock()
 pygame.init()
 
-world = pygame.display.set_mode([Constants.vars.worldx,Constants.vars.worldy])
+world = pygame.display.set_mode([dist.vars.worldx,dist.vars.worldy])
 backdrop = pygame.image.load(os.path.join('images/Stages','main-stage.png'))
 backdropbox = world.get_rect()
 
@@ -33,7 +33,7 @@ main = True
 
 player = Characters.characters.Player()  # spawn player
 player.rect.x = 175  # go to x
-player.rect.y = Constants.vars.ground  # go to y
+player.rect.y = dist.vars.ground  # go to y
 player_list = pygame.sprite.Group()
 player_list.add(player)
 steps = 4
@@ -69,11 +69,11 @@ while main:
     # Collison player with Enemy. End Game
     if pygame.sprite.spritecollideany(player, enemy_list):
         dead = True
-        Constants.vars.HIGHSCORE = findHighScore(Constants.vars.SCORES)
+        dist.vars.HIGHSCORE = findHighScore(dist.vars.SCORES)
         while dead:
-            world.fill(Constants.vars.RED)
-            world.blit(FONT.render('RIP...Final Score: '+str(Constants.vars.SCORE), True, Constants.vars.WHITE), (235, 160))
-            world.blit(FONT.render('Play Again? (y/n)', True, Constants.vars.WHITE), (250, 240))
+            world.fill(dist.vars.RED)
+            world.blit(FONT.render('RIP...Final Score: '+str(dist.vars.SCORE), True, dist.vars.WHITE), (235, 160))
+            world.blit(FONT.render('Play Again? (y/n)', True, dist.vars.WHITE), (250, 240))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -87,26 +87,26 @@ while main:
                         sys.exit()
                     if event.key == ord('y'):
                         dead = False
-                        Constants.vars.SCORE = 0
-                        Constants.vars.LVL = 0
-                        Constants.vars.SCORES.clear()
-                        Constants.vars.SCORES.append(Constants.vars.HIGHSCORE)
+                        dist.vars.SCORE = 0
+                        dist.vars.LVL = 0
+                        dist.vars.SCORES.clear()
+                        dist.vars.SCORES.append(dist.vars.HIGHSCORE)
                         player.movex = 0
                         player.movey = 0
                         player.rect.x = 175  # go to x
-                        player.rect.y = Constants.vars.ground  # go to y
-                        ice.rect.y = Constants.vars.ground + 40
+                        player.rect.y = dist.vars.ground  # go to y
+                        ice.rect.y = dist.vars.ground + 40
                         ice.movey = 0.5
                         sb.rect.x = 0
                         sb.movex = 1
 
             world.blit(backdrop, backdropbox)
-            world.blit(FONT.render('SCORE: '+str(Constants.vars.SCORE), True, Constants.vars.WHITE), (300, 20))
+            world.blit(FONT.render('SCORE: '+str(dist.vars.SCORE), True, dist.vars.WHITE), (300, 20))
 
     # Collision player with Coin
     elif pygame.sprite.spritecollideany(player, Coin_list):
-        Constants.vars.SCORE += 1
-        Constants.vars.SCORES.append(Constants.vars.SCORE)
+        dist.vars.SCORE += 1
+        dist.vars.SCORES.append(dist.vars.SCORE)
         for c in Coin_list:
             c.kill()
         coin = Characters.characters.Coin()
@@ -149,8 +149,8 @@ while main:
                 player.control(-steps, 0)
     player.rect.clamp_ip(backdropbox)
     world.blit(backdrop, backdropbox)
-    world.blit(FONT.render('SCORE: '+str(Constants.vars.SCORE), True, Constants.vars.WHITE), (300, 20))
-    world.blit(FONT.render('HIGH SCORE: '+str(Constants.vars.HIGHSCORE), True, Constants.vars.WHITE), (450, 20))
+    world.blit(FONT.render('SCORE: '+str(dist.vars.SCORE), True, dist.vars.WHITE), (300, 20))
+    world.blit(FONT.render('HIGH SCORE: '+str(dist.vars.HIGHSCORE), True, dist.vars.WHITE), (450, 20))
     player.gravity()
     player.update()
     coin.update()
@@ -164,4 +164,4 @@ while main:
     player_list.draw(world)
     entity_list.draw(world)
     pygame.display.flip()
-    clock.tick(Constants.vars.fps)
+    clock.tick(dist.vars.fps)
